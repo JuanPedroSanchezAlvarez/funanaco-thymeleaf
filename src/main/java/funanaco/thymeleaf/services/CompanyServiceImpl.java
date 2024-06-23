@@ -4,11 +4,13 @@ import funanaco.thymeleaf.dtos.CompanyDto;
 import funanaco.thymeleaf.enums.CountryEnum;
 import funanaco.thymeleaf.enums.RegionEnum;
 import funanaco.thymeleaf.enums.SectorEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
