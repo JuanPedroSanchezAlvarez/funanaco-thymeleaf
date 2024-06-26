@@ -31,6 +31,9 @@ public class CompanyServiceImpl implements CompanyService {
         list.add(new CompanyDto(3, "CompanyDummy 3", SectorEnum.BIOTECHNOLOGY, CountryEnum.BENIN, RegionEnum.EUROPE));
         list.add(new CompanyDto(4, "CompanyDummy 4", SectorEnum.CHEMICALS, CountryEnum.CROATIA, RegionEnum.ANTARCTICA));
         list.add(new CompanyDto(5, "CompanyDummy 5", SectorEnum.COMMERCIAL_BANKS, CountryEnum.DOMINICAN_REPUBLIC, RegionEnum.SOUTH_AMERICA));
+        for (int i = 0; i < 28; i++) {
+            list.add(new CompanyDto(6 + i, "CompanyDummy " + (6 + i), SectorEnum.COMMERCIAL_BANKS, CountryEnum.DOMINICAN_REPUBLIC, RegionEnum.SOUTH_AMERICA));
+        }
         return list;
     }
 
