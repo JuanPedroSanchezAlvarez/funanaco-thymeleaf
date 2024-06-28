@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{application.title}"></title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
 </head>
 <body>
 
-<div th:fragment="header" class="container-fluid">
+<div th:fragment="header(headerText)" class="container-fluid">
 
     <nav class="navbar fixed-top bg-primary" data-bs-theme="dark">
         <div class="container-fluid justify-content-center">
-            <span class="navbar-brand mb-0 h1">List of Companies</span>
+            <span class="navbar-brand mb-0 h1" th:text="${headerText}"></span>
         </div>
     </nav>
 

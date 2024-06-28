@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{application.title}"></title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
 </head>
 <body>
-Company
+<div th:replace="fragments/header :: header(${company.name})"></div>
 
 <h1 th:text="${company.name}"></h1>
 <h1 th:text="${company.sector.displayValue}"></h1>
 
-<div th:replace="fragments/footer :: footer" class="container"></div>
+<div th:replace="fragments/footer :: footer"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

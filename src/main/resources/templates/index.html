@@ -8,7 +8,7 @@
     <link th:href="@{/css/custom.css}" rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: header(#{page.index.header-text})"></div>
 
 <!-- Table of Companies -->
 <div class="container-fluid text-center">
