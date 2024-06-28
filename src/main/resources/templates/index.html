@@ -26,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr th:each="company : ${listOfCompanies}">
+                    <tr th:each="company : ${listOfCompanies}" th:onclick="'window.location=\'/company/' + ${company.id} + '\';'" class="custom-tr-clickable">
                         <td th:text="${company.name}"></td>
                         <td th:text="${company.sector.displayValue}"></td>
                         <td th:text="${company.country.displayValue}"></td>
