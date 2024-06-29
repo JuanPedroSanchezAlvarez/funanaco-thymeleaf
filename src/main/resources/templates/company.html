@@ -8,11 +8,11 @@
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/custom.css}" rel="stylesheet">
 </head>
-<body>
-<div th:replace="fragments/header :: header(${company.name})"></div>
+<body th:object="${company}">
+<div th:replace="fragments/header :: header(*{name})"></div>
 
-<h1 th:text="${company.name}"></h1>
-<h1 th:text="${company.sector.displayValue}"></h1>
+<h1 th:text="*{name}"></h1>
+<h1 th:text="*{sector.displayValue}"></h1>
 
 <div th:replace="fragments/footer :: footer"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
