@@ -21,7 +21,7 @@ public class CompanyController {
     @GetMapping(path = COMPANY_PATH)
     public String getCompanyById(@PathVariable(value = "id") Integer id, Model model) {
         model.addAttribute("company", service.findById(id));
-        return COMPANY_PAGE; // "redirect:/index"
+        return COMPANY_PAGE;
     }
 
 }

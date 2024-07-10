@@ -13,22 +13,22 @@
 
 <!-- Filter Form -->
 <div class="container-fluid">
-    <form>
+    <form id="filterForm" th:object="${filterCommand}" th:action="@{/}" method="post">
 
         <div class="row mb-3">
 
             <div class="col">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="nameInput" placeholder="Pepsico">
+                    <input type="text" class="form-control" id="nameInput" th:field="*{name}" placeholder="Pepsico">
                     <label for="nameInput">Name</label>
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-floating">
-                    <select class="form-select" id="sectorInput">
-                        <option selected>All</option>
-                        <option value="1">One</option>
+                    <select class="form-select" id="sectorInput" th:field="*{sector}">
+                        <option value="" selected>All</option>
+                        <option th:each="sectorOption : ${T(funanaco.thymeleaf.enums.SectorEnum).values()}" th:value="${sectorOption}" th:text="${sectorOption.displayValue}"></option>
                     </select>
                     <label for="sectorInput">Sector</label>
                 </div>
@@ -36,9 +36,9 @@
 
             <div class="col">
                 <div class="form-floating">
-                    <select class="form-select" id="countryInput">
-                        <option selected>All</option>
-                        <option value="1">One</option>
+                    <select class="form-select" id="countryInput" th:field="*{country}">
+                        <option value="" selected>All</option>
+                        <option th:each="countryOption : ${T(funanaco.thymeleaf.enums.CountryEnum).values()}" th:value="${countryOption}" th:text="${countryOption.displayValue}"></option>
                     </select>
                     <label for="countryInput">Country</label>
                 </div>
@@ -46,9 +46,9 @@
 
             <div class="col">
                 <div class="form-floating">
-                    <select class="form-select" id="regionInput">
-                        <option selected>All</option>
-                        <option value="1">One</option>
+                    <select class="form-select" id="regionInput" th:field="*{region}">
+                        <option value="" selected>All</option>
+                        <option th:each="regionOption : ${T(funanaco.thymeleaf.enums.RegionEnum).values()}" th:value="${regionOption}" th:text="${regionOption.displayValue}"></option>
                     </select>
                     <label for="regionInput">Region</label>
                 </div>
