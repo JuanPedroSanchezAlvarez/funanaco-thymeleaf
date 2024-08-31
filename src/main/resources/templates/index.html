@@ -26,11 +26,11 @@
 
             <div class="col">
                 <div class="form-floating">
-                    <select class="form-select" id="sectorInput" th:field="*{sector}">
+                    <select class="form-select" id="nicheInput" th:field="*{niche}">
                         <option value="" selected>All</option>
-                        <option th:each="sectorOption : ${T(funanaco.thymeleaf.enums.SectorEnum).values()}" th:value="${sectorOption}" th:text="${sectorOption.displayValue}"></option>
+                        <option th:each="nicheOption : ${T(funanaco.thymeleaf.enums.NicheEnum).values()}" th:value="${nicheOption}" th:text="${nicheOption.displayValue}"></option>
                     </select>
-                    <label for="sectorInput">Sector</label>
+                    <label for="nicheInput">Niche</label>
                 </div>
             </div>
 
@@ -80,7 +80,7 @@
                 <thead>
                     <tr>
                         <th class="bg-primary">Name</th>
-                        <th class="bg-primary">Sector</th>
+                        <th class="bg-primary">Niche</th>
                         <th class="bg-primary">Country</th>
                         <th class="bg-primary">Region</th>
                     </tr>
@@ -88,7 +88,7 @@
                 <tbody class="table-group-divider">
                     <tr th:each="company : ${listOfCompanies}" th:onclick="'window.location=\'/company/' + ${company.id} + '\';'" class="custom-tr-clickable">
                         <td th:text="${company.name}"></td>
-                        <td th:text="${company.sector.displayValue}"></td>
+                        <td th:text="${company.niche.displayValue}"></td>
                         <td th:text="${company.country.displayValue}"></td>
                         <td th:text="${company.region.displayValue}"></td>
                     </tr>

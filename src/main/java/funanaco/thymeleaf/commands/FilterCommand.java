@@ -1,8 +1,8 @@
 package funanaco.thymeleaf.commands;
 
 import funanaco.thymeleaf.enums.CountryEnum;
+import funanaco.thymeleaf.enums.NicheEnum;
 import funanaco.thymeleaf.enums.RegionEnum;
-import funanaco.thymeleaf.enums.SectorEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class FilterCommand {
 
     private String name;
-    private SectorEnum sector;
+    private NicheEnum niche;
     private CountryEnum country;
     private RegionEnum region;
 
