@@ -5,6 +5,9 @@ import funanaco.thymeleaf.enums.CountryEnum;
 import funanaco.thymeleaf.enums.NicheEnum;
 import funanaco.thymeleaf.enums.RegionEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,8 +18,12 @@ import java.util.List;
 public class CompanyServiceImpl implements CompanyService {
 
     @Override
-    public List<CompanyDto> findAll() {
-        return findAllDummy();
+    public Page<CompanyDto> findAll(Pageable pageable) {
+        List<CompanyDto> listOfCompanies = findAllDummy();
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), listOfCompanies.size());
+        List<CompanyDto> contentPageOfCompanies = listOfCompanies.subList(start, end);
+        return new PageImpl<>(contentPageOfCompanies, pageable, listOfCompanies.size());
     }
 
     @Override
