@@ -5,10 +5,7 @@ import funanaco.thymeleaf.enums.CountryEnum;
 import funanaco.thymeleaf.enums.NicheEnum;
 import funanaco.thymeleaf.enums.RegionEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,32 +15,13 @@ import java.util.*;
 public class CompanyServiceImpl implements CompanyService {
 
     @Override
-    public Page<CompanyDto> findAll(Pageable pageable) {
+    public Page<CompanyDto> findAll(int page, int size, String sort, String direction) {
+        // Get the list of companies.
         List<CompanyDto> listOfCompanies = findAllDummy();
-        // Order list.
-        pageable.getSort();
-        Sort sort = pageable.getSort();
-        Optional<Sort.Order> sortOrder = sort.stream().findFirst();
-        if (sortOrder.isPresent()) {
-            String sortField = sortOrder.get().getProperty();
-            Sort.Direction sortDirection = sortOrder.get().getDirection();
-            Comparator<CompanyDto> comparator = switch (sortField) {
-                case "name" -> Comparator.comparing(CompanyDto::getName);
-                case "niche.displayValue" -> Comparator.comparing(CompanyDto::getNiche);
-                case "country.displayValue" -> Comparator.comparing(CompanyDto::getCountry);
-                case "region.displayValue" -> Comparator.comparing(CompanyDto::getRegion);
-                default -> throw new IllegalArgumentException("Invalid sort field: " + sortField);
-            };
-            if (sortDirection.isDescending()) {
-                comparator = comparator.reversed();
-            }
-            listOfCompanies.sort(comparator);
-        }
-        // Page list.
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), listOfCompanies.size());
-        List<CompanyDto> contentPageOfCompanies = listOfCompanies.subList(start, end);
-        return new PageImpl<>(contentPageOfCompanies, pageable, listOfCompanies.size());
+        // Order it.
+        listOfCompanies = orderListOfCompanies(listOfCompanies, sort, direction);
+        // Page it.
+        return pageListOfCompanies(listOfCompanies, page, size);
     }
 
     @Override
@@ -66,6 +44,29 @@ public class CompanyServiceImpl implements CompanyService {
 
     private CompanyDto findOneDummy() {
         return new CompanyDto(1, "CompanyDummy 1", NicheEnum.HEALTHCARE, CountryEnum.AFGHANISTAN, RegionEnum.AFRICA, 0, 0, 0, 0, 0);
+    }
+
+    private List<CompanyDto> orderListOfCompanies(List<CompanyDto> listOfCompanies, String sort, String direction) {
+        Comparator<CompanyDto> comparator = switch (sort) {
+            case "name" -> Comparator.comparing(CompanyDto::getName);
+            case "niche" -> Comparator.comparing(CompanyDto::getNiche);
+            case "country" -> Comparator.comparing(CompanyDto::getCountry);
+            case "region" -> Comparator.comparing(CompanyDto::getRegion);
+            default -> throw new IllegalArgumentException("Invalid sort field: " + sort);
+        };
+        if (direction.equalsIgnoreCase("desc")) {
+            comparator = comparator.reversed();
+        }
+        listOfCompanies.sort(comparator);
+        return listOfCompanies;
+    }
+
+    private Page<CompanyDto> pageListOfCompanies(List<CompanyDto> listOfCompanies, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), listOfCompanies.size());
+        List<CompanyDto> contentPageOfCompanies = listOfCompanies.subList(start, end);
+        return new PageImpl<>(contentPageOfCompanies, pageable, listOfCompanies.size());
     }
 
 }

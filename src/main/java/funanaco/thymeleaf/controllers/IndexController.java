@@ -33,9 +33,7 @@ public class IndexController {
                            @RequestParam(value = "sort", defaultValue = "name") String sort,
                            @RequestParam(value = "direction", defaultValue = "asc") String direction,
                            Model model) {
-        Sort sortOrder = Sort.by(Sort.Direction.fromString(direction), sort);
-        Pageable pageable = PageRequest.of(page, size, sortOrder);
-        Page<CompanyDto> pageOfCompanies = service.findAll(pageable);
+        Page<CompanyDto> pageOfCompanies = service.findAll(page, size, sort, direction);
         model.addAttribute("filterCommand", new FilterCommand());
         model.addAttribute("listOfCompanies", pageOfCompanies.getContent());
         model.addAttribute("totalPages", pageOfCompanies.getTotalPages());
@@ -53,10 +51,10 @@ public class IndexController {
         if (bindingResult.hasErrors()) {
             return "redirect:" + INDEX_PATH;
         }
-        Pageable pageable = PageRequest.of(page, size);
-        Page<CompanyDto> pageOfCompanies = service.findAll(pageable);
-        model.addAttribute("filterCommand", filterCommand);
-        model.addAttribute("listOfCompanies", service.findAll(pageable));
+        //Pageable pageable = PageRequest.of(page, size);
+        //Page<CompanyDto> pageOfCompanies = service.findAll(pageable);
+        //model.addAttribute("filterCommand", filterCommand);
+        //model.addAttribute("listOfCompanies", service.findAll(pageable));
         return INDEX_PAGE;
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CompanyService {
 
-    Page<CompanyDto> findAll(Pageable pageable);
+    Page<CompanyDto> findAll(int page, int size, String sort, String direction);
     CompanyDto findById(Integer id);
 
 }

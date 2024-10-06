@@ -86,21 +86,21 @@
                             </a>
                         </th>
                         <th class="bg-primary">
-                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='niche.displayValue', direction=${reverseSortDirection})}">
+                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='niche', direction=${reverseSortDirection})}">
                                 Niche
-                                <span th:if="${sortField == 'niche.displayValue'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
+                                <span th:if="${sortField == 'niche'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
                             </a>
                         </th>
                         <th class="bg-primary">
-                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='country.displayValue', direction=${reverseSortDirection})}">
+                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='country', direction=${reverseSortDirection})}">
                                 Country
-                                <span th:if="${sortField == 'country.displayValue'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
+                                <span th:if="${sortField == 'country'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
                             </a>
                         </th>
                         <th class="bg-primary">
-                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='region.displayValue', direction=${reverseSortDirection})}">
+                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='region', direction=${reverseSortDirection})}">
                                 Region
-                                <span th:if="${sortField == 'region.displayValue'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
+                                <span th:if="${sortField == 'region'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
                             </a>
                         </th>
                     </tr>
