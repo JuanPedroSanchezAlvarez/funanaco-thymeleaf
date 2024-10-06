@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,12 +30,19 @@ public class IndexController {
     @GetMapping(path = INDEX_PATH)
     public String getIndex(@RequestParam(value = "page", defaultValue = "0") int page,
                            @RequestParam(value = "size", defaultValue = "10") int size,
+                           @RequestParam(value = "sort", defaultValue = "name") String sort,
+                           @RequestParam(value = "direction", defaultValue = "asc") String direction,
                            Model model) {
-        Page<CompanyDto> pageOfCompanies = service.findAll(PageRequest.of(page, size));
+        Sort sortOrder = Sort.by(Sort.Direction.fromString(direction), sort);
+        Pageable pageable = PageRequest.of(page, size, sortOrder);
+        Page<CompanyDto> pageOfCompanies = service.findAll(pageable);
         model.addAttribute("filterCommand", new FilterCommand());
         model.addAttribute("listOfCompanies", pageOfCompanies.getContent());
         model.addAttribute("totalPages", pageOfCompanies.getTotalPages());
         model.addAttribute("currentPage", pageOfCompanies.getNumber());
+        model.addAttribute("sortField", sort);
+        model.addAttribute("sortDirection", direction);
+        model.addAttribute("reverseSortDirection", direction.equals("asc") ? "desc" : "asc");
         return INDEX_PAGE;
     }
 

@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -20,6 +20,26 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Page<CompanyDto> findAll(Pageable pageable) {
         List<CompanyDto> listOfCompanies = findAllDummy();
+        // Order list.
+        pageable.getSort();
+        Sort sort = pageable.getSort();
+        Optional<Sort.Order> sortOrder = sort.stream().findFirst();
+        if (sortOrder.isPresent()) {
+            String sortField = sortOrder.get().getProperty();
+            Sort.Direction sortDirection = sortOrder.get().getDirection();
+            Comparator<CompanyDto> comparator = switch (sortField) {
+                case "name" -> Comparator.comparing(CompanyDto::getName);
+                case "niche.displayValue" -> Comparator.comparing(CompanyDto::getNiche);
+                case "country.displayValue" -> Comparator.comparing(CompanyDto::getCountry);
+                case "region.displayValue" -> Comparator.comparing(CompanyDto::getRegion);
+                default -> throw new IllegalArgumentException("Invalid sort field: " + sortField);
+            };
+            if (sortDirection.isDescending()) {
+                comparator = comparator.reversed();
+            }
+            listOfCompanies.sort(comparator);
+        }
+        // Page list.
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), listOfCompanies.size());
         List<CompanyDto> contentPageOfCompanies = listOfCompanies.subList(start, end);

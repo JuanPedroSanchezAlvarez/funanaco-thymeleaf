@@ -79,10 +79,30 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="bg-primary">Name</th>
-                        <th class="bg-primary">Niche</th>
-                        <th class="bg-primary">Country</th>
-                        <th class="bg-primary">Region</th>
+                        <th class="bg-primary">
+                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='name', direction=${reverseSortDirection})}">
+                                Name
+                                <span th:if="${sortField == 'name'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
+                            </a>
+                        </th>
+                        <th class="bg-primary">
+                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='niche.displayValue', direction=${reverseSortDirection})}">
+                                Niche
+                                <span th:if="${sortField == 'niche.displayValue'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
+                            </a>
+                        </th>
+                        <th class="bg-primary">
+                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='country.displayValue', direction=${reverseSortDirection})}">
+                                Country
+                                <span th:if="${sortField == 'country.displayValue'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
+                            </a>
+                        </th>
+                        <th class="bg-primary">
+                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='region.displayValue', direction=${reverseSortDirection})}">
+                                Region
+                                <span th:if="${sortField == 'region.displayValue'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
+                            </a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -104,15 +124,15 @@
     <ul class="pagination justify-content-center">
         <!-- Link to previous page -->
         <li th:if="${currentPage > 0}" class="page-item">
-            <a class="page-link" th:href="@{${INDEX_PATH}(page=${currentPage - 1}, size=${size})}">Previous</a>
+            <a class="page-link" th:href="@{${INDEX_PATH}(page=${currentPage - 1}, size=${size}, sort=${sortField}, direction=${sortDirection})}">Previous</a>
         </li>
         <!-- Links to page numbers -->
         <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == i} ? 'active' : ''" class="page-item">
-            <a class="page-link" th:href="@{${INDEX_PATH}(page=${i}, size=${size})}" th:text="${i + 1}"></a>
+            <a class="page-link" th:href="@{${INDEX_PATH}(page=${i}, size=${size}, sort=${sortField}, direction=${sortDirection})}" th:text="${i + 1}"></a>
         </li>
         <!-- Link to next page -->
         <li th:if="${currentPage < totalPages - 1}" class="page-item">
-            <a class="page-link" th:href="@{${INDEX_PATH}(page=${currentPage + 1}, size=${size})}">Next</a>
+            <a class="page-link" th:href="@{${INDEX_PATH}(page=${currentPage + 1}, size=${size}, sort=${sortField}, direction=${sortDirection})}">Next</a>
         </li>
     </ul>
 </nav>
