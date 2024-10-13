@@ -1,23 +1,28 @@
 package funanaco.thymeleaf.services;
 
+import funanaco.thymeleaf.commands.FilterCommand;
 import funanaco.thymeleaf.dtos.CompanyDto;
 import funanaco.thymeleaf.enums.CountryEnum;
 import funanaco.thymeleaf.enums.NicheEnum;
 import funanaco.thymeleaf.enums.RegionEnum;
+import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
     @Override
-    public Page<CompanyDto> findAll(int page, int size, String sort, String direction) {
+    public Page<CompanyDto> findAll(int page, int size, String sort, String direction, FilterCommand filterCommand) {
         // Get the list of companies.
         List<CompanyDto> listOfCompanies = findAllDummy();
+        // Filter it.
+        listOfCompanies = filterListOfCompanies(listOfCompanies, filterCommand);
         // Order it.
         listOfCompanies = orderListOfCompanies(listOfCompanies, sort, direction);
         // Page it.
@@ -44,6 +49,22 @@ public class CompanyServiceImpl implements CompanyService {
 
     private CompanyDto findOneDummy() {
         return new CompanyDto(1, "CompanyDummy 1", NicheEnum.HEALTHCARE, CountryEnum.AFGHANISTAN, RegionEnum.AFRICA, 0, 0, 0, 0, 0);
+    }
+
+    private List<CompanyDto> filterListOfCompanies(List<CompanyDto> listOfCompanies, FilterCommand filterCommand) {
+        if (StringUtils.isNotBlank(filterCommand.getName())) {
+            listOfCompanies = listOfCompanies.stream().filter(c -> c.getName().toLowerCase().contains(filterCommand.getName().toLowerCase())).collect(Collectors.toList());
+        }
+        if (filterCommand.getNiche() != null) {
+            listOfCompanies = listOfCompanies.stream().filter(c -> c.getNiche().equals(filterCommand.getNiche())).collect(Collectors.toList());
+        }
+        if (filterCommand.getCountry() != null) {
+            listOfCompanies = listOfCompanies.stream().filter(c -> c.getCountry().equals(filterCommand.getCountry())).collect(Collectors.toList());
+        }
+        if (filterCommand.getRegion() != null) {
+            listOfCompanies = listOfCompanies.stream().filter(c -> c.getRegion().equals(filterCommand.getRegion())).collect(Collectors.toList());
+        }
+        return listOfCompanies;
     }
 
     private List<CompanyDto> orderListOfCompanies(List<CompanyDto> listOfCompanies, String sort, String direction) {
