@@ -6,3 +6,20 @@ body {
 .custom-tr-clickable {
     cursor: pointer;
 }
+
+#overlaySpinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loadingSpinner {
+    z-index: 10000;
+}

@@ -71,6 +71,13 @@
     </form>
 </div>
 
+<!-- Loading Spinner -->
+<div id="overlaySpinner">
+    <div id="loadingSpinner" class="spinner-border text-info" style="width: 10rem; height: 10rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
 <!-- Table of Companies -->
 <div class="container-fluid text-center" th:unless="${#lists.isEmpty(listOfCompanies)}">
     <div class="row align-items-center justify-content-center">
@@ -80,25 +87,25 @@
                 <thead>
                     <tr>
                         <th class="bg-primary">
-                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='name', direction=${reverseSortDirection}, name=${filterCommand.name}, niche=${filterCommand.niche}, country=${filterCommand.country}, region=${filterCommand.region})}">
+                            <a class="order-link text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='name', direction=${reverseSortDirection}, name=${filterCommand.name}, niche=${filterCommand.niche}, country=${filterCommand.country}, region=${filterCommand.region})}">
                                 Name
                                 <span th:if="${sortField == 'name'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
                             </a>
                         </th>
                         <th class="bg-primary">
-                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='niche', direction=${reverseSortDirection}, name=${filterCommand.name}, niche=${filterCommand.niche}, country=${filterCommand.country}, region=${filterCommand.region})}">
+                            <a class="order-link text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='niche', direction=${reverseSortDirection}, name=${filterCommand.name}, niche=${filterCommand.niche}, country=${filterCommand.country}, region=${filterCommand.region})}">
                                 Niche
                                 <span th:if="${sortField == 'niche'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
                             </a>
                         </th>
                         <th class="bg-primary">
-                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='country', direction=${reverseSortDirection}, name=${filterCommand.name}, niche=${filterCommand.niche}, country=${filterCommand.country}, region=${filterCommand.region})}">
+                            <a class="order-link text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='country', direction=${reverseSortDirection}, name=${filterCommand.name}, niche=${filterCommand.niche}, country=${filterCommand.country}, region=${filterCommand.region})}">
                                 Country
                                 <span th:if="${sortField == 'country'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
                             </a>
                         </th>
                         <th class="bg-primary">
-                            <a class="text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='region', direction=${reverseSortDirection}, name=${filterCommand.name}, niche=${filterCommand.niche}, country=${filterCommand.country}, region=${filterCommand.region})}">
+                            <a class="order-link text-white text-decoration-none fw-bold" th:href="@{${INDEX_PATH}(page=${currentPage}, size=${size}, sort='region', direction=${reverseSortDirection}, name=${filterCommand.name}, niche=${filterCommand.niche}, country=${filterCommand.country}, region=${filterCommand.region})}">
                                 Region
                                 <span th:if="${sortField == 'region'}" th:text="${sortDirection == 'asc' ? '▲' : '▼'}"></span>
                             </a>
@@ -140,8 +147,17 @@
 <div th:replace="fragments/footer :: footer"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
+    function showLoadingSpinner() {
+        document.getElementById("overlaySpinner").classList.remove("d-none");
+    }
+
+    function hideLoadingSpinner() {
+        document.getElementById("overlaySpinner").classList.add("d-none");
+    }
+
     function submitForm() {
-        document.getElementById('filterForm').submit();
+        showLoadingSpinner();
+        document.getElementById("filterForm").submit();
     }
 
     function debounce(func, delay) {
@@ -153,8 +169,18 @@
     }
 
     document.getElementById("nameInput").addEventListener("input", debounce(function() {
-        document.getElementById("filterForm").submit();
+        submitForm();
     }, 1000));
+
+    document.querySelectorAll('a.page-link, a.order-link').forEach(function(element) {
+        element.addEventListener('click', function() {
+            showLoadingSpinner();
+        });
+    });
+
+    window.addEventListener("load", function () {
+        hideLoadingSpinner();
+    });
 </script>
 </body>
 </html>
